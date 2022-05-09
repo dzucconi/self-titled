@@ -150,10 +150,32 @@ const render = ({ html, caption }: Strategy) => {
   `;
 };
 
-render(run());
+// render(run());
 
-window.addEventListener("keydown", (event) => {
-  if (event.key === " ") {
-    render(run());
+// window.addEventListener("keydown", (event) => {
+//   if (event.key === " ") {
+//     render(run());
+//   }
+// });
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const play = async (children?: Strategy) => {
+  const strategy = sample(Object.keys(STRATEGIES));
+
+  const { html, caption } = STRATEGIES[strategy](children);
+
+  render({ html, caption });
+
+  if (strategy === "of") {
+    await wait(2500);
+    await play();
+    return;
   }
-});
+
+  await wait(100);
+
+  return play({ html, caption });
+};
+
+play();
