@@ -87,7 +87,7 @@ const STRATEGIES: Record<string, (children?: Strategy) => Strategy> = {
   on: (children?: Strategy) => {
     const a = color();
     const b = color();
-    const caption = `a field of ${a} is on a field of ${b}`;
+    const caption = `a field of ${a} on a field of ${b}`;
     return {
       html: `
         <div class="On">
@@ -96,7 +96,7 @@ const STRATEGIES: Record<string, (children?: Strategy) => Strategy> = {
           <div class="On--b" style="background-color: ${b}"></div>
         </div>
       `,
-      caption: children ? `${children.caption} is on ${caption}` : caption,
+      caption: children ? `${children.caption} on ${caption}` : caption,
     };
   },
   // TODO:
