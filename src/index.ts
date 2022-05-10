@@ -171,11 +171,13 @@ const play = async (children?: Strategy) => {
     return play();
   }
 
-  await wait(100);
+  await wait(50);
 
   return play({ html, caption });
 };
 
-// play();
+play();
 
-render(run());
+window.addEventListener("resize", () => {
+  textFit(document.getElementById("Caption"));
+});
