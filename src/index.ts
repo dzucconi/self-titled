@@ -181,3 +181,5 @@ play();
 window.addEventListener("resize", () => {
   textFit(document.getElementById("Caption"));
 });
+
+// TODO: Add reading time + progress indicator
