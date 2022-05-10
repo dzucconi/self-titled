@@ -1,3 +1,5 @@
+import textFit from "textfit";
+
 const DOM = {
   root: document.getElementById("root"),
 };
@@ -87,7 +89,7 @@ const STRATEGIES: Record<string, (children?: Strategy) => Strategy> = {
   on: (children?: Strategy) => {
     const a = color();
     const b = color();
-    const caption = `a field of ${a} on a field of ${b}`;
+    const caption = `a field of ${a} on top of a field of ${b}`;
     return {
       html: `
         <div class="On">
@@ -96,7 +98,7 @@ const STRATEGIES: Record<string, (children?: Strategy) => Strategy> = {
           <div class="On--b" style="background-color: ${b}"></div>
         </div>
       `,
-      caption: children ? `${children.caption} on ${caption}` : caption,
+      caption: children ? `${children.caption} on top of ${caption}` : caption,
     };
   },
   // TODO:
@@ -146,17 +148,14 @@ const run = (children?: Strategy) => {
 const render = ({ html, caption }: Strategy) => {
   DOM.root.innerHTML = `
     ${html}
-    <div class="Caption">${caption}</div>
+
+    <div id="Caption" class="Caption">
+      ${caption}
+    </div>
   `;
+
+  textFit(document.getElementById("Caption"));
 };
-
-// render(run());
-
-// window.addEventListener("keydown", (event) => {
-//   if (event.key === " ") {
-//     render(run());
-//   }
-// });
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -169,8 +168,7 @@ const play = async (children?: Strategy) => {
 
   if (strategy === "of") {
     await wait(2500);
-    await play();
-    return;
+    return play();
   }
 
   await wait(100);
@@ -178,4 +176,6 @@ const play = async (children?: Strategy) => {
   return play({ html, caption });
 };
 
-play();
+// play();
+
+render(run());
