@@ -165,7 +165,11 @@ const play = async (
 window.addEventListener("resize", resizeText);
 
 if (!CONFIG.params.play) {
-  window.addEventListener("click", () => {
+  window.addEventListener("mousedown", () => {
+    play();
+  });
+
+  window.addEventListener("touchstart", () => {
     play();
   });
 }
