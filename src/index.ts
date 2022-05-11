@@ -1,4 +1,9 @@
 import textFit from "textfit";
+import { configure } from "queryparams";
+
+const CONFIG = configure({
+  play: false,
+});
 
 const DOM = {
   root: document.getElementById("root"),
@@ -101,34 +106,6 @@ const STRATEGIES: Record<string, (children?: Strategy) => Strategy> = {
       caption: children ? `${children.caption} on top of ${caption}` : caption,
     };
   },
-  // TODO:
-  // between: () => {
-  //   return { html: "", caption: "" }
-  // },
-  // around: () => {
-  //   return { html: "", caption: "" }
-  // },
-  // in: () => {
-  //   return { html: "", caption: "" }
-  // },
-  // at: () => {
-  //   return { html: "", caption: "" }
-  // },
-  // to: () => {
-  //   return { html: "", caption: "" }
-  // },
-  // from: () => {
-  //   return { html: "", caption: "" }
-  // },
-  // through: () => {
-  //   return { html: "", caption: "" }
-  // },
-  // over: () => {
-  //   return { html: "", caption: "" }
-  // },
-  // under: () => {
-  //   return { html: "", caption: "" }
-  // },
 };
 
 const sample = <T>(xs: T[]) => xs[Math.floor(Math.random() * xs.length)];
@@ -159,28 +136,48 @@ const render = ({ html, caption }: Strategy) => {
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const play = async (children?: Strategy) => {
+const play = async (
+  {
+    children,
+    continuePlayback,
+  }: { children?: Strategy; continuePlayback?: boolean } = {
+    continuePlayback: CONFIG.params.play,
+  }
+) => {
   const strategy = sample(Object.keys(STRATEGIES));
 
   const { html, caption } = STRATEGIES[strategy](children);
 
   render({ html, caption });
 
+  // Render single frame
+  if (!continuePlayback && strategy === "of") {
+    return;
+  }
+
+  // Continue playback
   if (strategy === "of") {
     await wait(2500);
+
     return play();
   }
 
   await wait(50);
 
-  return play({ html, caption });
+  return play({ children: { html, caption }, continuePlayback });
 };
-
-play();
 
 window.addEventListener("resize", () => {
   textFit(document.getElementById("Caption"));
 });
+
+if (!CONFIG.params.play) {
+  window.addEventListener("click", () => {
+    play();
+  });
+}
+
+play();
 
 // TODO:
 // - Add reading time + progress indicator

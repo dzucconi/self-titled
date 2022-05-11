@@ -11,6 +11,7 @@
     "build": "parcel build src/index.html"
   },
   "dependencies": {
+    "queryparams": "^1.2.2",
     "textfit": "^2.4.0"
   }
 }

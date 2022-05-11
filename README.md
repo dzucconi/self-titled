@@ -10,3 +10,9 @@
   - **URL**: https://damonzucconi-initializer.netlify.app/
 - **Host**: https://app.netlify.com/sites/damonzucconi-initializer/overview
 - **Deploys**: Merged PRs to `dzucconi/initializer#master` are automatically deployed to production. [Manually trigger a deploy](https://app.netlify.com/sites/damonzucconi-initializer/deploys)
+
+## Parameters
+
+| Param  | Description      | Type      | Default |
+| ------ | ---------------- | --------- | ------- |
+| `play` | Enables playback | `boolean` | `false` |
