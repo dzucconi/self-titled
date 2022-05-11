@@ -182,4 +182,7 @@ window.addEventListener("resize", () => {
   textFit(document.getElementById("Caption"));
 });
 
-// TODO: Add reading time + progress indicator
+// TODO:
+// - Add reading time + progress indicator
+// - Speech synthesis playback
+// - Exapnd recursion into both left/right + above/below fields
