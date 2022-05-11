@@ -110,16 +110,11 @@ const STRATEGIES: Record<string, (children?: Strategy) => Strategy> = {
 
 const sample = <T>(xs: T[]) => xs[Math.floor(Math.random() * xs.length)];
 
-const run = (children?: Strategy) => {
-  const strategy = sample(Object.keys(STRATEGIES));
-
-  const { html, caption } = STRATEGIES[strategy](children);
-
-  if (strategy === "of") {
-    return { html, caption };
-  }
-
-  return run({ html, caption });
+const resizeText = () => {
+  textFit(document.getElementById("Caption"), {
+    minFontSize: 6,
+    maxFontSize: 9999,
+  });
 };
 
 const render = ({ html, caption }: Strategy) => {
@@ -131,7 +126,7 @@ const render = ({ html, caption }: Strategy) => {
     </div>
   `;
 
-  textFit(document.getElementById("Caption"));
+  resizeText();
 };
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -167,9 +162,7 @@ const play = async (
   return play({ children: { html, caption }, continuePlayback });
 };
 
-window.addEventListener("resize", () => {
-  textFit(document.getElementById("Caption"));
-});
+window.addEventListener("resize", resizeText);
 
 if (!CONFIG.params.play) {
   window.addEventListener("click", () => {
