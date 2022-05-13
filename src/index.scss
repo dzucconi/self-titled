@@ -25,6 +25,7 @@ body,
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   mix-blend-mode: difference;
   cursor: default;
+  user-select: none;
 
   > span {
     padding: 0.25em 0.5em;

@@ -40,7 +40,10 @@ type Strategy = {
   caption: string;
 };
 
-const STRATEGIES: Record<string, (children?: Strategy) => Strategy> = {
+const STRATEGIES: Record<
+  "of" | "within" | "beside" | "on",
+  (children?: Strategy) => Strategy
+> = {
   of: (children?: Strategy) => {
     if (children) return children;
     const a = color();
@@ -112,8 +115,9 @@ const sample = <T>(xs: T[]) => xs[Math.floor(Math.random() * xs.length)];
 
 const resizeText = () => {
   textFit(document.getElementById("Caption"), {
-    minFontSize: 6,
+    minFontSize: 16,
     maxFontSize: 9999,
+    multiLine: true,
   });
 };
 
@@ -171,6 +175,12 @@ if (!CONFIG.params.play) {
 
   window.addEventListener("touchstart", () => {
     play();
+  });
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === " ") {
+      play();
+    }
   });
 }
 
