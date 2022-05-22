@@ -36,6 +36,12 @@ const render = ({ html, caption }: Strategy) => {
   resizeText();
 };
 
+const backfill = (children?: Children): Children => {
+  return children
+    ? ([...children, Strategies[randomStrategy()]()].slice(0, 2) as Children)
+    : [Strategies[randomStrategy()](), Strategies[randomStrategy()]()];
+};
+
 const play = async (
   {
     children,
@@ -49,14 +55,10 @@ const play = async (
   const { html, caption } = (() => {
     switch (strategy) {
       case "beside":
-        return Strategies.beside(
-          children
-            ? ([...children, Strategies[randomStrategy()]()].slice(
-                0,
-                2
-              ) as Children)
-            : [Strategies[randomStrategy()](), Strategies[randomStrategy()]()]
-        );
+        return Strategies.beside(backfill(children));
+
+      case "on":
+        return Strategies.on(backfill(children));
 
       default:
         return Strategies[strategy](children ? children : []);
@@ -103,4 +105,3 @@ play();
 // TODO:
 // - Add reading time + progress indicator
 // - Speech synthesis playback
-// - Exapnd recursion into both left/right + above/below fields

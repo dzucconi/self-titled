@@ -35,3 +35,18 @@ export const color = () => {
 export const html = (string: string) => {
   return string.replace(/>\s+</g, "><").trim();
 };
+
+export const shuffle = <T>(array: T[]) => {
+  let m = array.length,
+    t: T,
+    i: number;
+
+  while (m) {
+    i = Math.floor(Math.random() * m--);
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
+};

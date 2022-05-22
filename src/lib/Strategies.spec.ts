@@ -3,6 +3,7 @@ import { Strategies } from "./Strategies";
 jest.mock("./utils", () => ({
   ...jest.requireActual("./utils"),
   color: jest.fn(() => "color"),
+  shuffle: <T>(xs: T[]) => xs,
 }));
 
 describe("Strategies", () => {
@@ -75,6 +76,18 @@ describe("Strategies", () => {
 
       expect(html).toEqual(
         '<div class="Beside"><div class="Beside--a" style="background-color: color"><div class="Within"><div class="Within--a" style="background-color: color"><div class="Within--b" style="background-color: color"></div></div></div></div><div class="Beside--b" style="background-color: color"><div class="Within"><div class="Within--a" style="background-color: color"><div class="Within--b" style="background-color: color"></div></div></div></div></div>'
+      );
+    });
+
+    // TODO:
+    it.skip("generates a caption in the correct order", () => {
+      const { caption } = Strategies.beside([
+        Strategies.beside(),
+        Strategies.beside(),
+      ]);
+
+      expect(caption).toEqual(
+        "a field of yellow beside a field of blue beside a field of turquoise beside a field of black"
       );
     });
   });
