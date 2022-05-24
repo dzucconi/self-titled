@@ -6,9 +6,22 @@
 
 html,
 body,
-#root {
+#Root {
   height: 100%;
   margin: 0;
+}
+
+.Next {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  background-color: transparent;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .Caption {
@@ -27,7 +40,7 @@ body,
   mix-blend-mode: difference;
   cursor: default;
   user-select: none;
-  line-height: 1.125;
+  line-height: 1;
 
   > span {
     padding: 0.25em 0.5em 0.5em 0.5em;

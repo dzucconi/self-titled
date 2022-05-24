@@ -1,19 +1,19 @@
 import textFit from "textfit";
 import { configure } from "queryparams";
-import { wait } from "./lib/utils";
 import {
   Strategies,
   Strategy,
   Children,
   randomStrategy,
 } from "./lib/Strategies";
+import { wait } from "./lib/utils";
 
 const CONFIG = configure({
   play: false,
 });
 
 const DOM = {
-  root: document.getElementById("root"),
+  root: document.getElementById("Root"),
 };
 
 const resizeText = () => {
@@ -31,6 +31,8 @@ const render = ({ html, caption }: Strategy) => {
     <div id="Caption" class="Caption">
       ${caption}
     </div>
+
+    <button id="Next" class="Next" onclick="play()"></button>
   `;
 
   resizeText();
@@ -52,6 +54,11 @@ const play = async (
 ) => {
   const strategy = randomStrategy();
 
+  // If the initial strategy is a dead end, restart the process
+  if (!children && strategy === "of") {
+    return play({ continuePlayback });
+  }
+
   const { html, caption } = (() => {
     switch (strategy) {
       case "beside":
@@ -72,33 +79,26 @@ const play = async (
     return;
   }
 
-  // Continue playback
+  // Wait 5 seconds then render a new frame
   if (strategy === "of") {
+    await wait(5000);
+
     return play();
   }
-
-  await wait(10);
 
   return play({ children: [{ html, caption }], continuePlayback });
 };
 
 window.addEventListener("resize", resizeText);
 
-if (!CONFIG.params.play) {
-  window.addEventListener("click", () => {
-    play();
-  });
+// @ts-ignore
+window.play = play;
 
-  window.addEventListener("touchend", () => {
+window.addEventListener("keydown", (event) => {
+  if (event.key === " ") {
     play();
-  });
-
-  window.addEventListener("keydown", (event) => {
-    if (event.key === " ") {
-      play();
-    }
-  });
-}
+  }
+});
 
 play();
 
