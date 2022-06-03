@@ -1,11 +1,11 @@
-import { color, html, sample, shuffle } from "./utils";
+import { Color, color, html, sample, shuffle } from "./utils";
 
 export type Strategy = { html: string; caption: string };
 export type Children = [] | [Strategy] | [Strategy, Strategy];
 
 export const Strategies: Record<
   "of" | "within" | "beside" | "on",
-  (children?: Children) => Strategy
+  (children?: Children, a?: Color, b?: Color) => Strategy
 > = {
   of: ([children] = [], a = color()) => {
     if (children) return children;

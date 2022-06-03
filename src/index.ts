@@ -17,11 +17,13 @@ const DOM = {
 };
 
 const resizeText = () => {
-  textFit(document.getElementById("Caption"), {
-    minFontSize: 16,
-    maxFontSize: 9999,
-    multiLine: true,
-  });
+  setTimeout(() => {
+    textFit(document.getElementById("Caption"), {
+      minFontSize: 16,
+      maxFontSize: 9999,
+      multiLine: true,
+    });
+  }, 0);
 };
 
 const render = ({ html, caption }: Strategy) => {
