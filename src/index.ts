@@ -17,8 +17,12 @@ const DOM = {
 };
 
 const resizeText = () => {
+  const el = document.getElementById("Caption");
+
   setTimeout(() => {
-    textFit(document.getElementById("Caption"), {
+    el.style.display = "block";
+
+    textFit(el, {
       minFontSize: 16,
       maxFontSize: 9999,
       multiLine: true,
@@ -30,7 +34,7 @@ const render = ({ html, caption }: Strategy) => {
   DOM.root.innerHTML = `
     ${html}
 
-    <div id="Caption" class="Caption">
+    <div id="Caption" class="Caption" style="display: none;">
       ${caption}
     </div>
 
