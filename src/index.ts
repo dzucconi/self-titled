@@ -19,6 +19,8 @@ const DOM = {
 const resizeText = () => {
   const el = document.getElementById("Caption");
 
+  if (!el) return;
+
   setTimeout(() => {
     el.style.display = "block";
 
@@ -31,6 +33,8 @@ const resizeText = () => {
 };
 
 const render = ({ html, caption }: Strategy) => {
+  if (!DOM.root) return;
+
   DOM.root.innerHTML = `
     ${html}
 

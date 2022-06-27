@@ -38,19 +38,19 @@ export const Strategies: Record<
       [
         html(`
             <div class="Beside--a" style="background-color: ${a}">
-              ${children.length > 0 ? children[0].html : ""}
+              ${children.length > 0 ? children[0]!.html : ""}
             </div>
           `),
-        children.length > 0 ? children[0].caption : `a field of ${a}`,
+        children.length > 0 ? children[0]!.caption : `a field of ${a}`,
       ],
 
       [
         html(`
             <div class="Beside--b" style="background-color: ${b}">
-              ${children.length > 1 ? children[1].html : ""}
+              ${children.length > 1 ? children[1]!.html : ""}
             </div>
           `),
-        children.length > 1 ? children[1].caption : `a field of ${b}`,
+        children.length > 1 ? children[1]!.caption : `a field of ${b}`,
       ],
     ]);
 
@@ -70,18 +70,18 @@ export const Strategies: Record<
       [
         html(`
         <div class="On--a" style="background-color: ${a}">
-          ${children.length > 0 ? children[0].html : ""}
+          ${children.length > 0 ? children[0]!.html : ""}
         </div>
       `),
-        children.length > 0 ? children[0].caption : `a field of ${a}`,
+        children.length > 0 ? children[0]!.caption : `a field of ${a}`,
       ],
       [
         html(`
         <div class="On--b" style="background-color: ${b}">
-          ${children.length > 1 ? children[1].html : ""}
+          ${children.length > 1 ? children[1]!.html : ""}
         </div>
       `),
-        children.length > 1 ? children[1].caption : `a field of ${b}`,
+        children.length > 1 ? children[1]!.caption : `a field of ${b}`,
       ],
     ]);
 
