@@ -22,7 +22,7 @@ const resizeText = () => {
   if (!el) return;
 
   setTimeout(() => {
-    el.style.display = "block";
+    el.style.display = "flex";
 
     textFit(el, {
       minFontSize: 16,
