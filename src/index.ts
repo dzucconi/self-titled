@@ -5,8 +5,12 @@ import {
   Strategy,
   Children,
   randomStrategy,
+  IMAGES,
+  getImageByIndex,
+  getImageByName,
 } from "./lib/Strategies";
 import { wait } from "./lib/utils";
+import { executeStrategy, parseSentenceIntoStrategy } from "./lib/parse";
 
 const CONFIG = configure({
   play: false,
@@ -112,6 +116,18 @@ window.addEventListener("keydown", (event) => {
 
 play();
 
-// TODO:
-// - Add reading time + progress indicator
-// - Speech synthesis playback
+// render(
+//   Strategies.within(
+//     [],
+//     getImageByName("air"),
+//     getImageByName("computer")
+//     // Strategies.of([], getImageByIndex(0)),
+//     // Strategies.of([], getImageByIndex(1)),
+//   )
+// );
+
+// render(
+//   executeStrategy(
+//     parseSentenceIntoStrategy("a government within a door beside air")
+//   )
+// );
