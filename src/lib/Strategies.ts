@@ -1,19 +1,28 @@
-// @ts-ignore
-import allImages from "../assets/*.jpg";
 import { getArticle } from "./language";
-import { html, sample, shuffle } from "./utils";
-import { Sampler } from "./Sampler";
+import { html, shuffle } from "./utils";
+import { randomImage } from "./contents";
 
+export type Name = "of" | "within" | "beside" | "on";
 export type Strategy = { html: string; caption: string };
 export type Children = [] | [Strategy] | [Strategy, Strategy];
 export type Image = { word: string; img: string };
 
 export const Strategies: Record<
-  "of" | "within" | "beside" | "on",
-  (children?: Children, a?: Image, b?: Image) => Strategy
+  Name,
+  ({
+    children,
+    a,
+    b,
+  }?: {
+    children?: Children;
+    a?: Image;
+    b?: Image;
+  }) => Strategy
 > = {
-  of: ([children] = [], a = randomImage()) => {
-    if (children) return children;
+  of: (
+    { children = [], a = randomImage() } = { children: [], a: randomImage() }
+  ) => {
+    if (children.length > 0) return children[0]!;
 
     return {
       html: html(
@@ -23,7 +32,13 @@ export const Strategies: Record<
     };
   },
 
-  within: ([children] = [], a = randomImage(), b = randomImage()) => {
+  within: (
+    { children = [], a = randomImage(), b = randomImage() } = {
+      children: [],
+      a: randomImage(),
+      b: randomImage(),
+    }
+  ) => {
     return {
       html: html(`
         <div class="Within">
@@ -33,18 +48,26 @@ export const Strategies: Record<
             <div class="Within--b" style="background-image: url(${
               b.img
             }); background-size: cover; background-position: center center;">
-              ${children ? children.html : ""}
+              ${children.length > 0 ? children[0]!.html : ""}
             </div>
           </div>
         </div>
       `),
       caption: `${
-        children ? children.caption : `${getArticle(b.word)} ${b.word}`
+        children.length > 0
+          ? children[0]!.caption
+          : `${getArticle(b.word)} ${b.word}`
       } within ${getArticle(a.word)} ${a.word}`,
     };
   },
 
-  beside: (children = [], a = randomImage(), b = randomImage()) => {
+  beside: (
+    { children = [], a = randomImage(), b = randomImage() } = {
+      children: [],
+      a: randomImage(),
+      b: randomImage(),
+    }
+  ) => {
     const [x, y] = shuffle([
       [
         html(`
@@ -84,7 +107,13 @@ export const Strategies: Record<
     };
   },
 
-  on: (children = [], a = randomImage(), b = randomImage()) => {
+  on: (
+    { children = [], a = randomImage(), b = randomImage() } = {
+      children: [],
+      a: randomImage(),
+      b: randomImage(),
+    }
+  ) => {
     const [x, y] = shuffle([
       [
         html(`
@@ -122,36 +151,4 @@ export const Strategies: Record<
       caption: [x[1], [y[1]]].join(" on top of "),
     };
   },
-};
-
-export const randomStrategy = () => {
-  return sample(Object.keys(Strategies)) as keyof typeof Strategies;
-};
-
-export const IMAGES = Object.entries(allImages) as [string, string][];
-
-const extractWordFromFilename = (filename: string) => {
-  return filename.split("_")[0];
-};
-
-const sampler = new Sampler(IMAGES);
-
-const randomImage = (): Image => {
-  const [filename, img] = sampler.pick();
-  const word = extractWordFromFilename(filename);
-  return { word, img: img as string };
-};
-
-export const getImageByIndex = (index: number): Image => {
-  const [filename, img] = IMAGES[index];
-  const word = extractWordFromFilename(filename);
-  return { word, img: img as string };
-};
-
-export const getImageByName = (name: string): Image => {
-  const [filename, img] = IMAGES.find(([filename]) =>
-    filename.startsWith(name)
-  )!;
-  const word = extractWordFromFilename(filename);
-  return { word, img: img as string };
 };

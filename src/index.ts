@@ -1,16 +1,8 @@
 import textFit from "textfit";
 import { configure } from "queryparams";
-import {
-  Strategies,
-  Strategy,
-  Children,
-  randomStrategy,
-  IMAGES,
-  getImageByIndex,
-  getImageByName,
-} from "./lib/Strategies";
+import { Strategies, Strategy, Children } from "./lib/Strategies";
 import { wait } from "./lib/utils";
-import { executeStrategy, parseSentenceIntoStrategy } from "./lib/parse";
+import { getImageByName, randomStrategy } from "./lib/contents";
 
 const CONFIG = configure({
   play: false,
@@ -54,7 +46,10 @@ const render = ({ html, caption }: Strategy) => {
 
 const backfill = (children?: Children): Children => {
   return children
-    ? ([...children, Strategies[randomStrategy()]()].slice(0, 2) as Children)
+    ? ([...children, Strategies[randomStrategy()]()].slice(0, 2) as [
+        Strategy,
+        Strategy
+      ])
     : [Strategies[randomStrategy()](), Strategies[randomStrategy()]()];
 };
 
@@ -76,15 +71,17 @@ const play = async (
   const { html, caption } = (() => {
     switch (strategy) {
       case "beside":
-        return Strategies.beside(backfill(children));
+        return Strategies.beside({ children: backfill(children) });
 
       case "on":
-        return Strategies.on(backfill(children));
+        return Strategies.on({ children: backfill(children) });
 
       default:
-        return Strategies[strategy](children ? children : []);
+        return Strategies[strategy]({ children: children ? children : [] });
     }
   })();
+
+  console.log("rendering", caption);
 
   render({ html, caption });
 
@@ -110,24 +107,9 @@ window.play = play;
 
 window.addEventListener("keydown", (event) => {
   if (event.key === " ") {
+    console.log("play");
     play();
   }
 });
 
 play();
-
-// render(
-//   Strategies.within(
-//     [],
-//     getImageByName("air"),
-//     getImageByName("computer")
-//     // Strategies.of([], getImageByIndex(0)),
-//     // Strategies.of([], getImageByIndex(1)),
-//   )
-// );
-
-// render(
-//   executeStrategy(
-//     parseSentenceIntoStrategy("a government within a door beside air")
-//   )
-// );
