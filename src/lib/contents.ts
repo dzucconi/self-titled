@@ -5,7 +5,15 @@ import { Sampler } from "./Sampler";
 import { Name, Strategies, Image } from "./Strategies";
 
 export const randomStrategy = (): Name => {
-  return sample(Object.keys(Strategies)) as Name;
+  const strat = sample(Object.keys(Strategies)) as Name;
+
+  // Increase density
+  // if (strat === "of") {
+  //   const next = Math.random() < 0.2 ? "of" : randomStrategy();
+  //   return next;
+  // }
+
+  return strat;
 };
 
 export const IMAGES = Object.entries(files) as [string, string][];

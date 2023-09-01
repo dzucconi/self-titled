@@ -3,6 +3,7 @@ import { configure } from "queryparams";
 import { Strategies, Strategy, Children } from "./lib/Strategies";
 import { wait } from "./lib/utils";
 import { getImageByName, randomStrategy } from "./lib/contents";
+import { parseSentence } from "./lib/Parse";
 
 const CONFIG = configure({
   play: false,
@@ -81,8 +82,6 @@ const play = async (
     }
   })();
 
-  console.log("rendering", caption);
-
   render({ html, caption });
 
   // Render single frame
@@ -113,3 +112,10 @@ window.addEventListener("keydown", (event) => {
 });
 
 play();
+
+// console.log(
+//   parseSentence(
+//     // "bread within a jacket beside air on top of a thesis on top of a smartphone beside an ellipsis beside a headquarters on top of a part beside music on top of a tree beside a government on top of a morning within a diagnosis within socks on top of a place on top of a month beside a bed on top of a barracks within a dress"
+//     "bread within a jacket"
+//   )
+// );
