@@ -4,7 +4,7 @@
 
 ## Meta
 
-- **State**: development
+- **State**: production
 - **Production**:
   - **URL**: https://initializer.work.damonzucconi.com/
   - **URL**: https://damonzucconi-initializer.netlify.app/
@@ -13,6 +13,7 @@
 
 ## Parameters
 
-| Param  | Description      | Type      | Default |
-| ------ | ---------------- | --------- | ------- |
-| `play` | Enables playback | `boolean` | `false` |
+| Param   | Description                            | Type      | Default |
+| ------- | -------------------------------------- | --------- | ------- |
+| `play`  | Enables playback                       | `boolean` | `false` |
+| `pause` | Pause between regenerating composition | `integer` | `5000`  |

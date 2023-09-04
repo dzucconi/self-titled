@@ -10,6 +10,7 @@ import { wait } from "./lib/utils";
 
 const CONFIG = configure({
   play: false,
+  pause: 5000,
 });
 
 const DOM = {
@@ -73,10 +74,8 @@ const play = async (
     switch (strategy) {
       case "beside":
         return Strategies.beside(backfill(children));
-
       case "on":
         return Strategies.on(backfill(children));
-
       default:
         return Strategies[strategy](children ? children : []);
     }
@@ -89,9 +88,9 @@ const play = async (
     return;
   }
 
-  // Wait 5 seconds then render a new frame
+  // Wait N ms then render a new frame
   if (strategy === "of") {
-    await wait(5000);
+    await wait(CONFIG.params.pause);
 
     return play();
   }
@@ -111,7 +110,3 @@ window.addEventListener("keydown", (event) => {
 });
 
 play();
-
-// TODO:
-// - Add reading time + progress indicator
-// - Speech synthesis playback
