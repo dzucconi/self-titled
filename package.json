@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "queryparams": "^1.2.2",
+    "screenfull": "^6.0.2",
     "textfit": "^2.4.0"
   }
 }

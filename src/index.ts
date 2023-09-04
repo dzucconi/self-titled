@@ -7,6 +7,7 @@ import {
   randomStrategy,
 } from "./lib/Strategies";
 import { wait } from "./lib/utils";
+import screenfull from "screenfull";
 
 const CONFIG = configure({
   play: false,
@@ -110,3 +111,9 @@ window.addEventListener("keydown", (event) => {
 });
 
 play();
+
+if (screenfull.isEnabled && CONFIG.params.play) {
+  document.addEventListener("click", () => {
+    screenfull.request();
+  });
+}
