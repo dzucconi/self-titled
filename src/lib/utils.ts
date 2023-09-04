@@ -1,5 +1,19 @@
 export const wait = (ms: number) => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  let cancel: () => void = () => {};
+
+  const promise: Promise<{ status: string }> = new Promise((resolve) => {
+    const timeoutId = setTimeout(() => resolve({ status: "Completed" }), ms);
+
+    cancel = () => {
+      clearTimeout(timeoutId);
+      resolve({ status: "Cancelled" });
+    };
+  });
+
+  return {
+    promise,
+    cancel,
+  };
 };
 
 export const sample = <T>(xs: T[]) => {
@@ -30,7 +44,7 @@ const COLORS = [
   "yellow",
 ];
 
-export type Color = typeof COLORS[number];
+export type Color = (typeof COLORS)[number];
 
 export const color = (): Color => {
   return sample(COLORS) as Color;

@@ -18,6 +18,12 @@ const DOM = {
   root: document.getElementById("Root"),
 };
 
+const STATE: {
+  wait: ReturnType<typeof wait> | null;
+} = {
+  wait: null,
+};
+
 const resizeText = () => {
   const el = document.getElementById("Caption");
 
@@ -64,6 +70,10 @@ const play = async (
     continuePlayback: CONFIG.params.play,
   }
 ) => {
+  if (STATE.wait) {
+    STATE.wait.cancel();
+  }
+
   const strategy = randomStrategy();
 
   // If the initial strategy is a dead end, restart the process
@@ -91,7 +101,13 @@ const play = async (
 
   // Wait N ms then render a new frame
   if (strategy === "of") {
-    await wait(CONFIG.params.pause);
+    STATE.wait = wait(CONFIG.params.pause);
+
+    const result = await STATE.wait.promise;
+
+    if (result.status === "Cancelled") {
+      return;
+    }
 
     return play();
   }
