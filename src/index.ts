@@ -102,6 +102,7 @@ const play = async (
   // Wait N ms then render a new frame
   if (strategy === "of") {
 
+    console.log('caption', caption)
     console.log('readingtime', readingTimeInMs(caption))
 
     const pause = Math.min(

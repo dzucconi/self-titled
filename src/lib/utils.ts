@@ -70,5 +70,5 @@ export const shuffle = <T>(array: T[]) => {
 };
 
 export const readingTimeInMs = (string: string) => {
-  return string.split(" ").length * 300;
+  return string.split(" ").length * 500;
 }
