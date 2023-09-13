@@ -109,6 +109,8 @@ const play = async (
       CONFIG.params.maxPause
     );
 
+    console.log('pause', pause)
+
     STATE.wait = wait(pause);
 
     const result = await STATE.wait.promise;
