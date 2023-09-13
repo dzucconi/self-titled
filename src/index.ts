@@ -6,11 +6,12 @@ import {
   Children,
   randomStrategy,
 } from "./lib/Strategies";
-import { wait } from "./lib/utils";
+import { readingTimeInMs, wait } from "./lib/utils";
 
 const CONFIG = configure({
   play: false,
-  pause: 5000,
+  minPause: 30000, // 30 seconds
+  maxPause: 60000, // 1 minute
 });
 
 const DOM = {
@@ -100,7 +101,15 @@ const play = async (
 
   // Wait N ms then render a new frame
   if (strategy === "of") {
-    STATE.wait = wait(CONFIG.params.pause);
+
+    console.log('readingtime', readingTimeInMs(caption))
+
+    const pause = Math.min(
+      Math.max(readingTimeInMs(caption), CONFIG.params.minPause),
+      CONFIG.params.maxPause
+    );
+
+    STATE.wait = wait(pause);
 
     const result = await STATE.wait.promise;
 

@@ -2,6 +2,7 @@
 *:after,
 *:before {
   box-sizing: border-box;
+  cursor: none;
 }
 
 html,
@@ -38,7 +39,7 @@ body,
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   // font-family: "Union", "Helvetica Neue", Helvetica, Arial, sans-serif; // TODO
   mix-blend-mode: difference;
-  cursor: default;
+  // cursor: default;
   user-select: none;
   line-height: 1;
 
